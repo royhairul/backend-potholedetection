@@ -1,5 +1,7 @@
 ####################################### IMPORT #################################
+import io
 import json
+import numpy as np
 import pandas as pd
 from PIL import Image
 from loguru import logger
@@ -17,7 +19,7 @@ from app import get_image_from_bytes
 from app import detect_sample_model
 from app import add_bboxs_on_img
 from app import get_bytes_from_image
-
+from app import calculate_contour_area
 ####################################### logger #################################
 
 logger.remove()
@@ -143,12 +145,21 @@ def img_object_detection_to_json(file: bytes = File(...)):
     # Step 3: Predict from model
     predict = detect_sample_model(input_image)
 
+    image_np = np.array(input_image)
+
+    for _, row in predict.iterrows():
+        xmin, ymin, xmax, ymax = row['xmin'], row['ymin'], row['xmax'], row['ymax']
+        contour_area = calculate_contour_area(image_np, xmin=xmin, ymin=ymin, xmax=xmax, ymax=ymax)
+
+
     # Step 4: Select detect obj return info
     # here you can choose what data to send to the result
     detect_res = predict[['name', 'confidence']]
     objects = detect_res['name'].values
 
     result['detect_objects_names'] = ', '.join(objects)
+    result['detect_objects_area'] = contour_area
+    detect_res['area'] = contour_area
     result['detect_objects'] = json.loads(detect_res.to_json(orient='records'))
 
     # Step 5: Logs and return
