@@ -135,3 +135,6 @@ vscode/PythonImportHelper-v2-Completion.json
 # Ignore Dataset and notebook (testing)
 /datasets
 /notebook
+
+# Test
+/tests/*
