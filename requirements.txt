@@ -5,4 +5,3 @@ fastapi[all]==0.89.1
 loguru
 pytest
 pytest-cov
-torch==2.3.0+cpu --index-url https://download.pytorch.org/whl/cpu
