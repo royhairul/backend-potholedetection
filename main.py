@@ -47,7 +47,7 @@ app = FastAPI(
 # and the client and server are hosted on different domains.
 origins = [
     "http://localhost",
-    "http://localhost:8008",
+    "http://localhost:8001",
     "*"
 ]
 
