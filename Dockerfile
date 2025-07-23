@@ -6,6 +6,6 @@ RUN apt update && \
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-RUN pip install torch==2.3.0+cpu --index-url https://download.pytorch.org/whl/cpu
+RUN pip install torch==2.3.0+cpu torchvision==0.18.0+cpu --index-url https://download.pytorch.org/whl/cpu
 
 COPY . /app
